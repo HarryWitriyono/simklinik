@@ -16,9 +16,27 @@ if (empty($_SESSION['_login'])) {
   <script src="assets/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-<body onload="KodeDokter.focus()">
+<body>
 <div class="container">
-<h2>Form Dokter Baru</h2>
+<?php if (isset($_POST['bCari'])) {
+    $KodeDokter=filter_var($_POST['KodeDokter'],FILTER_SANITIZE_STRING);
+    $sql="SELECT * FROM `dokter` WHERE `KodeDokter`='".$KodeDokter."'";
+    include('koneksi.db.php');
+    $q=mysqli_query($koneksi,$sql);
+    $r=mysqli_fetch_array($q);
+    if(empty($r)) {
+        echo '<div class="alert alert-danger alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="window.history.back();"></button>
+        <strong>Record tidak ditemukan !</strong> Record dokter tidak ditemukan .
+      </div>'; exit();
+    } else {
+        echo '<div class="alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Record ditemukan !</strong> Record dokter  ditemukan .
+      </div>';
+    }
+?>    
+<h2>Form Koreksi Dokter</h2>
 <form method="post">
   <div class="form-group row">
     <label for="KodeDokter " class="col-4 col-form-label">Kode Dokter</label> 
@@ -29,7 +47,7 @@ if (empty($_SESSION['_login'])) {
             <i class="fa fa-address-card"></i>
           </div>
         </div> 
-        <input id="KodeDokter" name="KodeDokter" placeholder="Kode Dokter " type="text" class="form-control">
+        <input id="KodeDokter" name="KodeDokter" placeholder="Kode Dokter " type="text" class="form-control" value="<?php echo $r['KodeDokter'];?>" readonly>
       </div>
     </div>
   </div>
@@ -40,7 +58,7 @@ if (empty($_SESSION['_login'])) {
         <div class="input-group-prepend">
           <div class="input-group-text">👨‍⚕️</div>
         </div> 
-        <input id="NamaDokter" name="NamaDokter" placeholder="Ketik Nama Dokter" type="text" class="form-control" required="required">
+        <input id="NamaDokter" name="NamaDokter" placeholder="Ketik Nama Dokter" type="text" class="form-control" required="required"  value="<?php echo $r['NamaDokter'];?>">
       </div>
     </div>
   </div>
@@ -48,27 +66,27 @@ if (empty($_SESSION['_login'])) {
     <label for="Sex" class="col-4 col-form-label">Sex</label> 
     <div class="col-8">
       <select id="Sex" name="Sex" class="custom-select" required="required">
-        <option value="Perempuan">Perempuan</option>
-        <option value="Laki-Laki">Laki-Laki</option>
+        <option value="Perempuan" <?php if ($r['Sex']=='Perempuan') echo 'Selected';?>>Perempuan</option>
+        <option value="Laki-Laki" <?php if ($r['Sex']=='Laki-Laki') echo 'Selected';?>>Laki-Laki</option>
       </select>
     </div>
   </div>
   <div class="form-group row">
     <label for="TempatLahir" class="col-4 col-form-label">Tempat Lahir</label> 
     <div class="col-8">
-      <input id="TempatLahir" name="TempatLahir" placeholder="Ketik Tempat Lahir" type="text" class="form-control">
+      <input id="TempatLahir" name="TempatLahir" placeholder="Ketik Tempat Lahir" type="text" class="form-control" value="<?php echo $r['TempatLahir'];?>">
     </div>
   </div>
   <div class="form-group row">
     <label for="TanggalLahir" class="col-4 col-form-label">Tanggal Lahir</label> 
     <div class="col-8">
-      <input id="TanggalLahir" name="TanggalLahir" type="date" class="form-control">
+      <input id="TanggalLahir" name="TanggalLahir" type="date" class="form-control" value="<?php echo $r['TanggalLahir'];?>">
     </div>
   </div>
   <div class="form-group row">
     <label for="Alamat" class="col-4 col-form-label">Alamat</label> 
     <div class="col-8">
-      <textarea id="Alamat" name="Alamat" cols="40" rows="2" class="form-control"></textarea>
+      <textarea id="Alamat" name="Alamat" cols="40" rows="2" class="form-control"><?php echo $r['NamaDokter'];?></textarea>
     </div>
   </div>
   <div class="form-group row">
@@ -80,26 +98,26 @@ if (empty($_SESSION['_login'])) {
             <i class="fa fa-phone-square"></i>
           </div>
         </div> 
-        <input id="NoTelepon" name="NoTelepon" placeholder="+6281xxxx" type="text" class="form-control">
+        <input id="NoTelepon" name="NoTelepon" placeholder="+6281xxxx" type="text" class="form-control" value="<?php echo $r['NoTelepon'];?>">
       </div>
     </div>
   </div>
   <div class="form-group row">
     <label for="SIP" class="col-4 col-form-label">SIP</label> 
     <div class="col-8">
-      <input id="SIP" name="SIP" placeholder="Ketik Nomor Surat Ijin Praktek" type="text" class="form-control" required="required">
+      <input id="SIP" name="SIP" placeholder="Ketik Nomor Surat Ijin Praktek" type="text" class="form-control" required="required" value="<?php echo $r['SIP'];?>">
     </div>
   </div>
   <div class="form-group row">
     <label for="Spesialisasi" class="col-4 col-form-label">Spesialisasi</label> 
     <div class="col-8">
-      <input id="Spesialisasi" name="Spesialisasi" placeholder="Spesialisasi" type="text" class="form-control">
+      <input id="Spesialisasi" name="Spesialisasi" placeholder="Spesialisasi" type="text" class="form-control" value="<?php echo $r['Spesialisasi'];?>">
     </div>
   </div>
   <div class="form-group row">
     <label for="BagiHsil" class="col-4 col-form-label">Bagi Hasil</label> 
     <div class="col-8">
-      <input id="BagiHsil" name="BagiHsil" placeholder="Ketik besar bagi hasil yang diinginkan per pasien" type="text" class="form-control">
+      <input id="BagiHsil" name="BagiHsil" placeholder="Ketik besar bagi hasil yang diinginkan per pasien" type="text" class="form-control" value="<?php echo $r['BagiHsil'];?>">
     </div>
   </div>
   <div class="form-group row">
@@ -111,18 +129,20 @@ if (empty($_SESSION['_login'])) {
             <i class="fa fa-key"></i>
           </div>
         </div> 
-        <input id="Password" name="Password" placeholder="Password" type="password" required="required" class="form-control">
+        <input id="Password" name="Password" placeholder="Password" type="password" required="required" class="form-control" value="<?php echo $r['Password'];?>">
       </div>
     </div>
   </div> 
   <div class="form-group row">
     <div class="offset-4 col-8">
-      <button name="submit" type="submit" class="btn btn-primary">Submit</button>
-      <button name="bCari" type="submit" formnovalidate formaction="hasilcaridokter.php" class="btn btn-info">Cari</button>
+      <button name="submit" type="submit" class="btn btn-primary">Simpan Koreksi Dokter</button>
+      <button name="bHapus" type="submit" class="btn btn-danger" onclick="return confirm('Apakah yakin akan dihapus ?');">Hapus Dokter</button>
+      <button name="bCari" type="submit" formnovalidate formaction="formdokter.php" class="btn btn-info">Cari</button>
     </div>
   </div>
 </form>
-<?php if (isset($_POST['submit'])) {
+<?php }
+if (isset($_POST['submit'])) {
   $KodeDokter=filter_var($_POST['KodeDokter'],FILTER_SANITIZE_STRING);
   $NamaDokter=filter_var($_POST['NamaDokter'],FILTER_SANITIZE_STRING);
   $Sex=filter_var($_POST['Sex'],FILTER_SANITIZE_STRING);
@@ -135,21 +155,38 @@ if (empty($_SESSION['_login'])) {
   $BagiHsil=filter_var($_POST['BagiHsil'],FILTER_SANITIZE_STRING);
   $Password=filter_var($_POST['Password'],FILTER_SANITIZE_STRING);
   include('koneksi.db.php');
-  $sql="INSERT INTO `dokter`(`KodeDokter`, `NamaDokter`, `Sex`, `TempatLahir`, `TanggalLahir`, `Alamat`, `NoTelepon`, `SIP`, `Spesialisasi`, `BagiHsil`, `Password`) VALUES ('".$KodeDokter."','".$NamaDokter."','".$Sex."','".$TempatLahir."','".$TanggalLahir."','".$Alamat."','".$NoTelepon."','".$SIP."','".$Spesialisasi."','".$BagiHsil."','".$Password."')";
+  $sql="UPDATE `dokter` SET `NamaDokter`='".$NamaDokter."',`Sex`='".$Sex."',`TempatLahir`='".$TempatLahir."',`TanggalLahir`='".$TanggalLahir."',`Alamat`='".$Alamat."',`NoTelepon`='".$NoTelepon."',`SIP`='".$SIP."',`Spesialisasi`='".$Spesialisasi."',`BagiHsil`='".$BagiHsil."',`Password`='".$Password."' WHERE `KodeDokter`='".$KodeDokter."'";
   $q=mysqli_query($koneksi,$sql);
   if ($q) {
     echo '<div class="alert alert-success alert-dismissible">
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="window.history.go(-2);"></button>
     <strong>Success!</strong> Rekord sukses disimpan !.
   </div>';
   } else {
     echo '<div class="alert alert-danger alert-dismissible">
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="window.history.back()></button>
     <strong>Gagal!</strong> Gagal simpan rekord.
   </div>';
   }
-  mysqli_close($koneksi);
 }
+if (isset($_POST['bHapus'])) {
+    $KodeDokter=filter_var($_POST['KodeDokter'],FILTER_SANITIZE_STRING);
+    include_once('koneksi.db.php');
+    $sql="delete from dokter where KodeDokter='".$KodeDokter."'";
+    $q=mysqli_query($koneksi,$sql);
+    if ($q) {
+      echo '<div class="alert alert-success alert-dismissible">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="window.history.go(-2);"></button>
+      <strong>Success!</strong> Rekord sukses dihapus !.
+    </div>';
+    } else {
+      echo '<div class="alert alert-danger alert-dismissible">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="window.history.go(-2);"></button>
+      <strong>Gagal!</strong> Rekord gagal dihapus !.
+    </div>';
+    }
+    mysqli_close($koneksi);
+  }
 ?>
 </div>
 </body>

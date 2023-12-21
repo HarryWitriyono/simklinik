@@ -12,6 +12,7 @@
   </head>
 <body onload="NomorRekamMedik.focus()">
 <div class="container">
+<h2>Form Pendaftaran Kunjungan Baru</h2>
 <form method="post" action="hasilcekrmpendaftaran.php" target="framehasil">
   <div class="form-group row">
     <label for="text" class="col-4 col-form-label">Nomor Rekam Medik</label> 
@@ -26,6 +27,12 @@
       </div>
     </div>
   </div>
+  <div class="form-group row">
+    <label for="Keluhan" class="col-4 col-form-label">Keluhan</label> 
+    <div class="col-8">
+      <textarea id="Keluhan" name="Keluhan" cols="40" rows="5" class="form-control" required="required"></textarea>
+    </div>
+  </div> 
   <div class="form-group row">
     <label for="KodeDokter" class="col-4 col-form-label">Dokter Tujuan</label> 
     <div class="col-8">
@@ -45,13 +52,13 @@
   </div> 
   <div class="form-group row">
     <div class="offset-4 col-8">
-      <button name="submit" type="submit" class="btn btn-primary">Cek RM Pendaftaran</button>
+      <button name="submit" type="submit" class="btn btn-primary">Daftarkan</button>
     </div>
   </div>
 </form>
 </div>
 <div class="container">
-<iframe src="hasilcekrmpendaftaran.php" width="100%" height="400px" name="framehasil"></iframe>
+<iframe src="" width="100%" height="400px" name="framehasil"></iframe>
 </div>
 </body>
 </html>

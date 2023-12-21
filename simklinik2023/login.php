@@ -41,10 +41,15 @@ if ((isset($_POST['bLogin'])) and (isset($_POST['uname'])) and (!empty($_POST['u
 	$q=mysqli_query($koneksi,$sql);
 	$r=mysqli_fetch_array($q);
 	if (empty($r)) {
-		echo '<div class="alert alert-danger alert-dismissible">
-  <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="window.history.back()"></button>
-  <strong>Cari Kasir</strong> Kasir Tidak Ditemukan ! Kode Kasir tidak boleh kosong. </div>';
-		exit();
+    $sql="select * from dokter where Username='".$Username."' and Password='".$Password."'";
+    $q=mysqli_query($koneksi,$sql);
+    $r=mysqli_fetch_array($q);
+    if (empty($r)) {
+      echo '<div class="alert alert-danger alert-dismissible">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="window.history.back()"></button>
+      <strong>Cari Kasir</strong> Kasir Tidak Ditemukan ! Kode Kasir tidak boleh kosong. </div>';
+		  exit();
+    }
 	} else {
 		if (!isset($_SESSION)) session_start();
 		$_SESSION['_login']=$r['KodePetugas'];

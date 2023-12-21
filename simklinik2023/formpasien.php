@@ -176,6 +176,7 @@ if (empty($_SESSION['_login'])) {
   include('koneksi.db.php');
   $sql="INSERT INTO `pasien`(`NomorRekamMedik`, `NamaPasien`, `NomorIdentitas`, `JenisKelamin`, `GolonganDarah`, `Agama`, `TempatLahir`, `TanggalLahir`, `NoTelepon`, `Alamat`, `StatusNikah`, `Pekerjaan`, `NamaKerabat`, `StatusKerabat`, `NoTeleponKerabat`, `TanggalRekam`, `KodePetugas`) VALUES ('".$NomorRekamMedik."','".$NamaPasien."','".$NomorIdentitas."','".$JenisKelamin."','".$GolonganDarah."','".$Agama."','".$TempatLahir."','".$TanggalLahir."','".$NoTelepon."','".$Alamat."','".$StatusNikah."','".$Pekerjaan."','".$NamaKerabat."','".$StatusKerabat."','".$NoTeleponKerabat."',now(),'".$_SESSION['_login']."')";
   $q=mysqli_query($koneksi,$sql);
+  mysqli_close($koneksi);
   if ($q) {
     echo '<div class="alert alert-success alert-dismissible">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

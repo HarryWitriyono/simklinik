@@ -109,7 +109,7 @@
   <div class="form-group row">
     <div class="offset-4 col-8">
       <button name="submit" type="submit" class="btn btn-primary">Simpan Koreksi Petugas </button>
-      <button name="bHapus" type="submit" class="btn btn-danger" formnovalidate>Hapus Petugas</button>
+      <button name="bHapus" type="submit" class="btn btn-danger" formnovalidate onclick="return confirm('Apakah yakin akan dihapus ?');">Hapus Petugas</button>
       <button name="bCari" type="submit" class="btn btn-info" formnovalidate formaction="formpetugas.php">Cari Petugas</button>
     </div>
   </div>
